@@ -33,7 +33,6 @@ app.put('/usuario/:id', (req, res) => {
     //Actualizar registros
 
     let body = req.body;
-
     if (body.nombre === undefined) {
         res.status(400).json({
             mensaje: "El nombre es necesario"
