@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
+const _ = require('underscore');
 
 let Schema = mongoose.Schema;
 

@@ -14,9 +14,9 @@
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "mongoose": "^6.1.6",
-    "mongoose-unique-validator": "^3.0.0"
+    "mongoose-unique-validator": "^3.0.0",
+    "underscore": "^1.13.2"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/camicodes/P59-Node-RestServer.git"
