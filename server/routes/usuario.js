@@ -19,7 +19,7 @@ app.get('/usuario', (req, res) => {
     let limite = req.query.limite || 5;
     limite = Number(limite);
 
-    Usuario.find({})
+    Usuario.find({ estado: true }, 'nombre email role estado')
         .skip(desde)
         .limit(limite)
         .exec((err, usuarios) => {
@@ -30,7 +30,7 @@ app.get('/usuario', (req, res) => {
                 });
             };
 
-            Usuario.count({}, (err, conteo) => {
+            Usuario.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     registros: conteo,
@@ -114,9 +114,65 @@ app.put('/usuario/:id', (req, res) => {
 });*/
 
 //Eliminar registros (cambiar a inactivo)
-app.delete('/usuario', (req, res) => {
-    res.json('delete Usuario');
+app.delete('/usuario/:id', (req, res) => {
+    let id = req.params.id;
+
+    let cambiarEstado = {
+        estado: false
+    }
+
+    Usuario.findByIdAndUpdate(id, body, { new: true }, (err, usuarioDB) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (usuarioDB === null) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: "Usuario no encontrado"
+                }
+            });
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB
+        });
+    });
+
+
+    /*
+    Usuario.findByIdAndDelete(id, (err, usuarioBorrado) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (usuarioBorrado === null) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: "Usuario no encontrado"
+                }
+            });
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioBorrado
+        });
+    });*/
 });
+
+
+//res.json('delete Usuario');
+
 
 //exportar para que se pueda utilizar en otros modulos
 module.exports = app;
