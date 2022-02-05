@@ -82,22 +82,22 @@ app.put('/usuario/:id', (req, res) => {
     //Actualizar registros
     let id = req.params.id;
 
-    let body = _.pick(req.body, ('nombre', 'email', 'img', 'role', 'estado'));
+    let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
 
     //delete body.password;
     //delete body.google;
 
-    Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
+    Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioBD) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
                 err
-            })
+            });
         }
 
         res.json({
             ok: true,
-            usuario: usuarioDB
+            usuario: usuarioBD
         });
     });
 });
@@ -143,36 +143,33 @@ app.delete('/usuario/:id', (req, res) => {
             usuario: usuarioDB
         });
     });
-
-
-    /*
-    Usuario.findByIdAndDelete(id, (err, usuarioBorrado) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
-
-        if (usuarioBorrado === null) {
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: "Usuario no encontrado"
-                }
-            });
-        }
-
-        res.json({
-            ok: true,
-            usuario: usuarioBorrado
-        });
-    });*/
 });
-
-
-//res.json('delete Usuario');
-
 
 //exportar para que se pueda utilizar en otros modulos
 module.exports = app;
+
+/*
+Usuario.findByIdAndDelete(id, (err, usuarioBorrado) => {
+    if (err) {
+        return res.status(400).json({
+            ok: false,
+            err
+        })
+    }
+
+    if (usuarioBorrado === null) {
+        return res.status(400).json({
+            ok: false,
+            err: {
+                message: "Usuario no encontrado"
+            }
+        });
+    }
+
+    res.json({
+        ok: true,
+        usuario: usuarioBorrado
+    });
+});*/
+
+//res.json('delete Usuario');
